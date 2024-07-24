@@ -21,3 +21,4 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 export default User;
+// exporting it as default allows us to call this any name when we import it
