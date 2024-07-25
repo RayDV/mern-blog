@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import userRoutes from './routes/user.route.js'
+import userRoutes from './routes/user.route.js';
+import authRoutes from './routes/auth.route.js';
 
 dotenv.config();
 
@@ -15,6 +16,9 @@ mongoose.connect(process.env.MONGO_DB_URI)
 
 const app = express();
 
+// By default we are not allowed to send JSON, so we need to add the following:
+app.use(express.json());
+
 app.listen(3000, () => {
     console.log('Server is running on port 3000!!!');
 });
@@ -22,3 +26,4 @@ app.listen(3000, () => {
 // req: data we are sent to the API
 // res: data that we have  recieved from the API
 app.use('/api/user', userRoutes);
+app.use('/api/auth', authRoutes);
