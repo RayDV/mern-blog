@@ -8,7 +8,7 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
+    setFormData({ ...formData, [e.target.id]: e.target.value.trim() }); // .trim() removes whitespaces
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +35,7 @@ export default function SignUp() {
       setErrorMessage(error.message);
       setLoading(false);
     }
-  };
+  }; // min-h-screen pushes the footer all the way down to the bottom of the screen
   return (
     <div className='min-h-screen mt-20'>
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
@@ -43,7 +43,7 @@ export default function SignUp() {
         <div className='flex-1'>
           <Link to='/' className='font-bold dark:text-white text-4xl'>
             <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
-              Sahand's
+              DeV
             </span>
             Blog
           </Link>
