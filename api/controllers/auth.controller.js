@@ -66,3 +66,44 @@ export const signin = async(req, res, next) => {
     next(error);
   }
 };
+
+export const google = async (req, res, next) => {
+  // the front end is sending the username and email to the database, 
+  // so we have recieve the data and check if that user is in the database:
+
+  // Recieving:
+  const {email, name, googlePhotoUrl} = req.body;
+
+  // Checking:
+  try {
+    const user = await User.findOne({email});
+    if(user) {
+      const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
+      const {password, ...rest} = user._doc; // why do we set the rest to a doc?
+      res.status(200).cookie('access_token', token, {
+        httpOnly: true, // set this to true for security reasons
+      }).json(rest);
+    } else {
+      const generatedPassowrd = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+      const hashedPassword = bcryptjs.hashSync(generatedPassowrd, 10);
+      const newUser = new User({
+        // Ex: Ray Devera => raydevera6734
+        username: name.toLowerCase().split(' ').join('') + Math.random().toString(9).slice(-4),
+        email,
+        password: hashedPassword,
+        profilePcture: googlePhotoUrl,
+      });
+      await newUser.save();
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET); // why is there two tokens? Maybe the first one is from the front end and this one is from the backend?
+      const { password, ...rest } = newUser._doc;
+      res
+        .status(200)
+        .cookie('access_token', token, {
+          httpOnly: true,
+        })
+        .json(rest);
+    }
+  } catch (error) {
+    
+  }
+}
