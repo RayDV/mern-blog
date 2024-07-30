@@ -91,7 +91,7 @@ export const google = async (req, res, next) => {
         username: name.toLowerCase().split(' ').join('') + Math.random().toString(9).slice(-4),
         email,
         password: hashedPassword,
-        profilePcture: googlePhotoUrl,
+        profilePicture: googlePhotoUrl,
       });
       await newUser.save();
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET); // why is there two tokens? Maybe the first one is from the front end and this one is from the backend?
@@ -104,6 +104,6 @@ export const google = async (req, res, next) => {
         .json(rest);
     }
   } catch (error) {
-    
+    next(error);
   }
 }

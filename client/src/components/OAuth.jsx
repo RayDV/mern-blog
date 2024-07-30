@@ -11,9 +11,12 @@ export default function OAuth() {
   const dispatch = useDispatch();
   const handleGoogleClick = async () => {
     const auth = getAuth(app); // We have to insert app from firebase or else FireBase won't know who is requesting
-    const provider = new GoogleAuthProvider();
+    
+    // Used to configure and manage Google Sign-in/ up for Firebase Authentication
+    // Allows our application to authenticate users using their Google Accounts.
+    const provider = new GoogleAuthProvider(); 
 
-    provider.setCustomParameters({ prompt: 'select_account' });
+    provider.setCustomParameters({ prompt: 'select_account' }); 
     try {
       const resultsFromGoogle = await signInWithPopup(auth, provider);
 
